@@ -1,0 +1,247 @@
+.experience {
+    padding: 120px 0;
+    background: var(--darker);
+}
+
+.experience-content {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.timeline-section {
+    position: relative;
+}
+
+.timeline-heading {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--text-primary);
+}
+
+.timeline-heading svg {
+    color: var(--primary);
+    font-size: 28px;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 40px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--primary), var(--accent));
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 48px;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -47px;
+    top: 8px;
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border-radius: 50%;
+    border: 3px solid var(--darker);
+    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2);
+    z-index: 1;
+}
+
+.timeline-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.timeline-card::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 20px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 12px solid var(--border);
+}
+
+.timeline-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--primary);
+    transform: translateX(8px);
+    box-shadow: 0 10px 30px rgba(14, 165, 233, 0.1);
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.timeline-role {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.timeline-company {
+    font-size: 16px;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.timeline-period {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(14, 165, 233, 0.1);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+    border-radius: 20px;
+    font-size: 14px;
+    color: var(--primary);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.timeline-period svg {
+    font-size: 12px;
+}
+
+.timeline-description {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.timeline-achievements {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.timeline-achievements strong {
+    display: block;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+.timeline-achievements ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.timeline-achievements li {
+    padding-left: 24px;
+    position: relative;
+    line-height: 1.6;
+}
+
+.timeline-achievements li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .experience {
+        padding: 80px 0;
+    }
+
+    .experience-content {
+        gap: 60px;
+    }
+
+    .timeline-heading {
+        font-size: 26px;
+        margin-bottom: 32px;
+    }
+
+    .timeline {
+        padding-left: 32px;
+    }
+
+    .timeline-dot {
+        left: -39px;
+        width: 12px;
+        height: 12px;
+    }
+
+    .timeline-card {
+        padding: 20px;
+    }
+
+    .timeline-card::before {
+        left: -10px;
+        border-right-width: 10px;
+    }
+
+    .timeline-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .timeline-role {
+        font-size: 20px;
+    }
+
+    .timeline-company {
+        font-size: 15px;
+    }
+
+    .timeline-period {
+        font-size: 13px;
+        padding: 6px 12px;
+    }
+
+    .timeline-description {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .timeline {
+        padding-left: 24px;
+    }
+
+    .timeline-dot {
+        left: -31px;
+    }
+
+    .timeline-achievements li {
+        font-size: 13px;
+    }
+}
