@@ -1,5 +1,6 @@
 import { FaGraduationCap, FaBriefcase, FaCode } from 'react-icons/fa';
 import './About.css';
+import profilePhoto from '../profile-photo/me 2.jpeg';
 
 const About = () => {
     return (
