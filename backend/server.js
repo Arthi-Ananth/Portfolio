@@ -10,12 +10,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors({
-    origin: '*', // Allows all origins
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type']
-}));
+app.use(cors()); // Simplest way to allow all
 app.use(express.json());
+
+// Add a simple log to see requests
+app.use((req, res, next) => {
+    console.log(`📩 Incoming ${req.method} request to ${req.url}`);
+    next();
+});
 
 // Verify transporter configuration
 const transporter = nodemailer.createTransport({
