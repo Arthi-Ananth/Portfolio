@@ -1,6 +1,5 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
-const cors = require('cors');
 const dotenv = require('dotenv');
 
 // Load environment variables
@@ -9,13 +8,23 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors()); // Simplest way to allow all
+// ✅ Manually set CORS headers - most reliable approach
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    // Handle preflight OPTIONS request immediately
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+    next();
+});
+
 app.use(express.json());
 
-// Add a simple log to see requests
+// Log all incoming requests
 app.use((req, res, next) => {
-    console.log(`📩 Incoming ${req.method} request to ${req.url}`);
+    console.log(`📩 ${req.method} ${req.url}`);
     next();
 });
 
@@ -24,23 +33,24 @@ const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS // Use Google App Password here
+        pass: process.env.EMAIL_PASS
     }
 });
 
 transporter.verify((error, success) => {
     if (error) {
-        console.log('❌ Transporter verification failed:', error.message);
-        if (error.message.includes('535-5.7.8')) {
-            console.log('👉 TIP: You need to use a Google App Password, not your regular password.');
-            console.log('👉 Go to: https://myaccount.google.com/apppasswords');
-        }
+        console.log('❌ Transporter error:', error.message);
     } else {
-        console.log('✅ Server is ready to take our messages');
+        console.log('✅ Server is ready to send emails');
     }
 });
 
-// Routes
+// Health check
+app.get('/', (req, res) => {
+    res.json({ status: 'Portfolio Backend is running!' });
+});
+
+// Send email route
 app.post('/send', async (req, res) => {
     const { name, email, subject, message } = req.body;
 
@@ -49,15 +59,10 @@ app.post('/send', async (req, res) => {
     }
 
     const mailOptions = {
-        from: `"${name}" <${process.env.EMAIL_USER}>`, // Best practice to use your own email as "from"
-        to: process.env.EMAIL_USER, // Receive the email at your own address
-        replyTo: email, // Set reply-to as the sender's email
+        from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
+        to: process.env.EMAIL_USER,
+        replyTo: email,
         subject: `New Portfolio Message: ${subject}`,
-        text: `You have a new message from your portfolio contact form.\n\n` +
-              `Name: ${name}\n` +
-              `Email: ${email}\n` +
-              `Subject: ${subject}\n\n` +
-              `Message:\n${message}`,
         html: `
             <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
                 <h2 style="color: #0ea5e9; border-bottom: 2px solid #0ea5e9; padding-bottom: 10px;">New Portfolio Contact</h2>
@@ -69,28 +74,25 @@ app.post('/send', async (req, res) => {
                     <p>${message.replace(/\n/g, '<br>')}</p>
                 </div>
                 <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-                <p style="font-size: 12px; color: #999;">This email was sent from your portfolio contact form.</p>
+                <p style="font-size: 12px; color: #999;">Sent from your portfolio contact form.</p>
             </div>
         `
     };
 
     try {
         await transporter.sendMail(mailOptions);
+        console.log(`✅ Email sent from ${email}`);
         res.status(200).json({ success: true, message: 'Message sent successfully!' });
     } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).json({ 
-            success: false, 
-            message: 'Failed to send message.', 
-            details: error.message.includes('535') ? 'Authentication failed. Please check your App Password.' : error.message 
+        console.error('❌ Error sending email:', error.message);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to send message.',
+            details: error.message.includes('535') ? 'Authentication failed. Check your App Password.' : error.message
         });
     }
 });
 
-app.get('/', (req, res) => {
-    res.send('Portfolio Backend is running!');
-});
-
 app.listen(PORT, () => {
-    console.log(`✅ Server running on http://localhost:${PORT}`);
+    console.log(`✅ Server running on port ${PORT}`);
 });
