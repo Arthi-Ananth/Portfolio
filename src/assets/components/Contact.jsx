@@ -24,10 +24,15 @@ const Contact = () => {
         setLoading(true);
         setResult(null);
         try {
+            const params = new URLSearchParams();
+            params.append('name', formData.name);
+            params.append('email', formData.email);
+            params.append('subject', formData.subject);
+            params.append('message', formData.message);
+
             const response = await fetch('https://portfolio-uaft.onrender.com/send', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                body: params,
             });
             const data = await response.json();
             if (data.success) {
