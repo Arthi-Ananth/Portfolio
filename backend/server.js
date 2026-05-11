@@ -96,6 +96,12 @@ app.post('/send', async (req, res) => {
     }
 });
 
+// Catch-all for unmatched routes
+app.use((req, res) => {
+    console.log(`🚫 404: ${req.method} ${req.url} not matched`);
+    res.status(404).json({ error: 'Route not found', method: req.method, path: req.url });
+});
+
 app.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT}`);
 });
