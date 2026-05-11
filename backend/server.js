@@ -1,5 +1,6 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
+const cors = require('cors');
 const dotenv = require('dotenv');
 
 // Load environment variables
@@ -8,17 +9,18 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Manually set CORS headers - most reliable approach
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    // Handle preflight OPTIONS request immediately
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
-    next();
-});
+const corsOptions = {
+    origin: '*',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type'],
+    optionsSuccessStatus: 200
+};
+
+// ✅ Handle OPTIONS preflight for ALL routes
+app.options('*', cors(corsOptions));
+
+// ✅ Apply CORS to all requests
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
