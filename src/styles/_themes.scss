@@ -1,0 +1,124 @@
+// ── Theme environments ───────────────────────────────────────────────────
+// Every theme defines the same token contract. Light palette lives on :root
+// so a missing attribute still renders correctly.
+
+:root,
+[data-theme='midnight'] {
+  color-scheme: dark;
+  --bg: #0b0f1a;
+  --bg-2: #080b13;
+  --surface: #121826;
+  --surface-2: #0e1420;
+  --surface-elevated: #1a2233;
+  --text: #eef2fb;
+  --text-muted: #a9b4cc;
+  --text-subtle: #6b7791;
+  --accent: #7c8bff;
+  --accent-2: #3fe0d0;
+  --accent-contrast: #0b0f1a;
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.6);
+  --glow: rgba(124, 139, 255, 0.35);
+  --grid-line: rgba(255, 255, 255, 0.045);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f6f4ef;
+  --bg-2: #efece3;
+  --surface: #ffffff;
+  --surface-2: #efece4;
+  --surface-elevated: #ffffff;
+  --text: #16181d;
+  --text-muted: #4a4f5c;
+  --text-subtle: #7c8290;
+  --accent: #4b41d8;
+  --accent-2: #0f8f84;
+  --accent-contrast: #ffffff;
+  --border: rgba(20, 22, 28, 0.12);
+  --border-strong: rgba(20, 22, 28, 0.22);
+  --shadow: 0 22px 50px -24px rgba(35, 28, 12, 0.28);
+  --glow: rgba(75, 65, 216, 0.18);
+  --grid-line: rgba(20, 22, 28, 0.05);
+}
+
+[data-theme='aurora'] {
+  color-scheme: dark;
+  --bg: #0c0e12;
+  --bg-2: #090a0d;
+  --surface: #14171d;
+  --surface-2: #101318;
+  --surface-elevated: #1c2029;
+  --text: #eaf6ee;
+  --text-muted: #a6c0b2;
+  --text-subtle: #6f8479;
+  --accent: #56f0a0;
+  --accent-2: #8b6cff;
+  --accent-contrast: #06120b;
+  --border: rgba(120, 255, 190, 0.1);
+  --border-strong: rgba(120, 255, 190, 0.2);
+  --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.65);
+  --glow: rgba(86, 240, 160, 0.32);
+  --grid-line: rgba(140, 255, 200, 0.05);
+}
+
+[data-theme='ocean'] {
+  color-scheme: dark;
+  --bg: #071522;
+  --bg-2: #050f19;
+  --surface: #0c1f30;
+  --surface-2: #0a1a29;
+  --surface-elevated: #123049;
+  --text: #e6f4fb;
+  --text-muted: #9dc0d3;
+  --text-subtle: #628296;
+  --accent: #35c7e6;
+  --accent-2: #5b8dff;
+  --accent-contrast: #04121c;
+  --border: rgba(120, 220, 255, 0.1);
+  --border-strong: rgba(120, 220, 255, 0.2);
+  --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.55);
+  --glow: rgba(53, 199, 230, 0.3);
+  --grid-line: rgba(120, 220, 255, 0.05);
+}
+
+[data-theme='sunset'] {
+  color-scheme: dark;
+  --bg: #1a1016;
+  --bg-2: #150c12;
+  --surface: #241620;
+  --surface-2: #1e131b;
+  --surface-elevated: #33202c;
+  --text: #fdeef0;
+  --text-muted: #d3a9b4;
+  --text-subtle: #9a7580;
+  --accent: #ff7a59;
+  --accent-2: #ffc24b;
+  --accent-contrast: #1a1016;
+  --border: rgba(255, 180, 150, 0.12);
+  --border-strong: rgba(255, 180, 150, 0.24);
+  --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.5);
+  --glow: rgba(255, 122, 89, 0.3);
+  --grid-line: rgba(255, 180, 150, 0.05);
+}
+
+[data-theme='mono'] {
+  color-scheme: dark;
+  --bg: #0f0f0f;
+  --bg-2: #0a0a0a;
+  --surface: #161616;
+  --surface-2: #121212;
+  --surface-elevated: #1e1e1e;
+  --text: #f2f2f2;
+  --text-muted: #b0b0b0;
+  --text-subtle: #7a7a7a;
+  --accent: #f2f2f2;
+  --accent-2: #9a9a9a;
+  --accent-contrast: #0f0f0f;
+  --border: rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.26);
+  --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
+  --glow: rgba(255, 255, 255, 0.12);
+  --grid-line: rgba(255, 255, 255, 0.05);
+}

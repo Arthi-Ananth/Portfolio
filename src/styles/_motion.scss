@@ -1,0 +1,72 @@
+// Reveal primitives used by RevealDirective.
+// Elements are visible by default — the directive only hides them (adds
+// .reveal-armed) once JS has confirmed it will animate them in. That keeps
+// content visible for no-JS, prerender and reduced-motion.
+.reveal-armed {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity var(--dur-3) var(--ease-out),
+    transform var(--dur-3) var(--ease-out);
+}
+.reveal-armed[data-reveal='left'] {
+  transform: translateX(-28px);
+}
+.reveal-armed[data-reveal='right'] {
+  transform: translateX(28px);
+}
+.reveal-armed[data-reveal='scale'] {
+  transform: scale(0.94);
+}
+.reveal-armed.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes studio-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes studio-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  96% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes studio-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Global reduced-motion contract.
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal-armed {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+:root[data-reduced-motion='true'] .reveal-armed {
+  opacity: 1 !important;
+  transform: none !important;
+}

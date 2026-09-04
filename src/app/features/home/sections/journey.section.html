@@ -1,0 +1,45 @@
+<section id="journey" class="section" aria-labelledby="journey-title">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <p class="eyebrow">07 — Journey</p>
+      <h2 id="journey-title" class="section__title">How I got to here.</h2>
+      <p class="lede">Follow the path. Each checkpoint opens up.</p>
+    </div>
+
+    <ol class="path" role="list" appReveal>
+      @for (s of stops; track s.id) {
+        <li class="stop" [class.stop--open]="open() === s.id" [attr.data-kind]="s.kind">
+          <button type="button" class="stop__head" (click)="toggle(s.id)" [attr.aria-expanded]="open() === s.id">
+            <span class="stop__pin"><app-icon [name]="icon(s.kind)" /></span>
+            <span class="stop__period mono">{{ s.period }}</span>
+            <span class="stop__title">{{ s.title }}</span>
+          </button>
+          <div class="stop__body" [hidden]="open() !== s.id">
+            @if (s.place) {
+              <p class="stop__place">{{ s.place }}</p>
+            }
+            <p class="stop__detail">{{ s.detail }}</p>
+            @if (s.points?.length) {
+              <ul class="stop__points" role="list">
+                @for (p of s.points; track p) {
+                  <li>{{ p }}</li>
+                }
+              </ul>
+            }
+          </div>
+        </li>
+      }
+    </ol>
+
+    <div class="numbers" appReveal="up" [revealStagger]="90">
+      @for (n of stats; track n.label) {
+        <div class="numbers__item">
+          <p class="numbers__value display">
+            <app-counter [value]="n.value" [suffix]="n.suffix" />
+          </p>
+          <p class="numbers__label">{{ n.label }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

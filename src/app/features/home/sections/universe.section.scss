@@ -1,0 +1,158 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: var(--sp-5);
+}
+
+.grp {
+  margin-top: var(--sp-5);
+}
+.grp__title {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  margin-bottom: 1.2rem;
+}
+.grp__title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.grp__count {
+  color: var(--accent);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: 1rem;
+}
+
+.pcard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1.1rem;
+  border-radius: var(--r-3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition:
+    opacity var(--dur-3) var(--ease-out),
+    transform var(--dur-2) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out);
+}
+.pcard:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+}
+.pcard--dim {
+  opacity: 0.32;
+  filter: saturate(0.5);
+}
+
+.pcard__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pcard__year {
+  font-size: 0.68rem;
+  color: var(--text-subtle);
+}
+.pcard__badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border);
+  color: var(--text-subtle);
+}
+.pcard__badge--live {
+  color: var(--accent-2);
+  border-color: color-mix(in oklab, var(--accent-2) 40%, transparent);
+}
+
+.pcard__name {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+.pcard__sum {
+  font-size: var(--step--1);
+  color: var(--text-muted);
+  flex: 1;
+}
+.pcard__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.pcard__stack li {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  padding: 0.16rem 0.45rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border);
+  color: var(--text-subtle);
+}
+.pcard__stack li.on {
+  color: var(--accent-contrast);
+  background: var(--accent);
+  border-color: transparent;
+}
+.pcard__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  font-size: var(--step--1);
+}
+.pcard__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--text-muted);
+}
+
+.prof {
+  padding: clamp(1.2rem, 3vw, 1.8rem);
+  border-radius: var(--r-3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.prof__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: start;
+  margin-bottom: 0.8rem;
+}
+.prof__role {
+  font-size: 0.72rem;
+  color: var(--text-subtle);
+  margin-top: 0.2rem;
+}
+.prof__points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: 0.5rem 1.4rem;
+  margin-top: 1rem;
+}
+.prof__points li {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  font-size: var(--step--1);
+  color: var(--text-muted);
+}
+.prof__points app-icon {
+  color: var(--accent);
+  flex: none;
+}

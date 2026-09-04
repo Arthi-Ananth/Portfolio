@@ -1,0 +1,91 @@
+<section id="universe" class="section container" aria-labelledby="universe-title">
+  <div class="section__head" appReveal>
+    <p class="eyebrow">04 — Project universe</p>
+    <h2 id="universe-title" class="section__title">Everything, grouped by what it is.</h2>
+    <p class="lede">Filter by a technology to see where I've actually used it.</p>
+  </div>
+
+  <div class="filters" role="group" aria-label="Filter projects by technology" appReveal>
+    <button
+      type="button"
+      class="chip"
+      [class.chip--active]="active() === null"
+      (click)="active.set(null)"
+    >
+      All work
+    </button>
+    @for (f of filters; track f.id) {
+      <button
+        type="button"
+        class="chip"
+        [class.chip--active]="active() === f.id"
+        [attr.aria-pressed]="active() === f.id"
+        (click)="toggle(f.id)"
+      >
+        {{ f.label }}
+      </button>
+    }
+  </div>
+
+  @for (g of groups(); track g.id) {
+    <div class="grp" appReveal>
+      <h3 class="grp__title">
+        <span>{{ g.label }}</span>
+        <span class="grp__count mono">{{ g.items.length }}</span>
+      </h3>
+      <ul class="cards" role="list">
+        @for (p of g.items; track p.slug) {
+          <li class="pcard" [class.pcard--dim]="!matches(p)">
+            <div class="pcard__top">
+              <span class="pcard__year mono">{{ p.year }}</span>
+              @if (liveUrl(p)) {
+                <span class="pcard__badge pcard__badge--live">Live</span>
+              }
+            </div>
+            <h4 class="pcard__name">{{ p.name }}</h4>
+            <p class="pcard__sum">{{ p.summary }}</p>
+            <ul class="pcard__stack" role="list">
+              @for (t of p.stack.slice(0, 5); track t) {
+                <li [class.on]="active() === t">{{ labelFor(t) }}</li>
+              }
+            </ul>
+            <div class="pcard__links">
+              @if (p.caseStudy) {
+                <a class="link" [routerLink]="['/work', p.slug]" data-cursor="view">Case study</a>
+              }
+              @if (liveUrl(p)) {
+                <a class="link" [href]="liveUrl(p)" target="_blank" rel="noopener" data-cursor="launch">
+                  Live <app-icon name="arrow-up-right" />
+                </a>
+              }
+              @if (sourceUrl(p)) {
+                <a class="link" [href]="sourceUrl(p)" target="_blank" rel="noopener">Source</a>
+              }
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+
+  <div class="grp" appReveal>
+    <h3 class="grp__title"><span>Professional</span></h3>
+    <div class="prof">
+      <div class="prof__head">
+        <div>
+          <h4 class="pcard__name">{{ professional.project }}</h4>
+          <p class="mono prof__role">
+            {{ professional.role }} · {{ professional.company }} · {{ professional.period }}
+          </p>
+        </div>
+        <span class="pcard__badge">Proprietary</span>
+      </div>
+      <p class="pcard__sum">{{ professional.summary }}</p>
+      <ul class="prof__points" role="list">
+        @for (pt of professional.points; track pt) {
+          <li><app-icon name="check" /> {{ pt }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

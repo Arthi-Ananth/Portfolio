@@ -1,0 +1,139 @@
+@if (project(); as p) {
+  <article class="wd" [style.--hue]="p.hue">
+    <div class="grid-backdrop"></div>
+
+    <header class="wd__hero container">
+      <a routerLink="/" fragment="featured" class="wd__back link">
+        <app-icon name="arrow-right" /> All work
+      </a>
+      <p class="eyebrow">{{ p.year }} · case study</p>
+      <h1 class="wd__title display">{{ p.name }}</h1>
+      <p class="wd__statement lede">{{ p.statement }}</p>
+
+      <div class="wd__meta">
+        <div><span class="mono">Role</span><p>{{ p.role }}</p></div>
+        <div>
+          <span class="mono">Links</span>
+          <p class="wd__links">
+            @if (live()) {
+              <a class="btn btn--primary" [href]="live()!.url" target="_blank" rel="noopener" data-cursor="launch">
+                <app-icon name="play" /> {{ live()!.label }}
+              </a>
+            }
+            @for (s of sources(); track s.url) {
+              <a class="btn btn--ghost" [href]="s.url" target="_blank" rel="noopener">
+                <app-icon name="github" /> {{ s.label }}
+              </a>
+            }
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <div class="wd__frame container" appReveal="up">
+      <app-frame [kind]="p.shots[0]?.frame ?? 'browser'" [url]="live() ? 'live' : 'github.com'">
+        @if (p.shots[0]?.schematic || !p.shots[0]?.src) {
+          <app-schematic
+            [variant]="p.group === 'dashboard' ? 'dashboard' : 'app'"
+            [label]="p.name + ' interface wireframe'"
+          />
+        } @else {
+          <img [ngSrc]="'assets/' + p.shots[0]!.src" width="1280" height="800" [alt]="p.shots[0]!.alt" priority />
+        }
+      </app-frame>
+      @if (p.shots[0]?.schematic || !p.shots[0]?.src) {
+        <p class="wd__note mono">Stylised wireframe — this project has no public live build to screenshot.</p>
+      }
+    </div>
+
+    @if (p.caseStudy; as cs) {
+      <div class="wd__body container">
+        <section class="wd__block" appReveal>
+          <h2><span class="mono">01</span> Overview</h2>
+          <p>{{ p.summary }}</p>
+        </section>
+        <section class="wd__block" appReveal>
+          <h2><span class="mono">02</span> The problem</h2>
+          <p>{{ cs.problem }}</p>
+        </section>
+        <section class="wd__block" appReveal>
+          <h2><span class="mono">03</span> What I built</h2>
+          <p>{{ cs.solution }}</p>
+        </section>
+
+        <section class="wd__block" appReveal>
+          <h2><span class="mono">04</span> Key features</h2>
+          <ul class="wd__features" role="list">
+            @for (f of cs.features; track f) {
+              <li><app-icon name="check" /> {{ f }}</li>
+            }
+          </ul>
+        </section>
+
+        <section class="wd__block" appReveal>
+          <h2><span class="mono">05</span> Technologies</h2>
+          <ul class="wd__stack" role="list">
+            @for (t of stackLabels(); track t) {
+              <li class="chip">{{ t }}</li>
+            }
+          </ul>
+        </section>
+
+        <section class="wd__block" appReveal>
+          <h2><span class="mono">06</span> Engineering decisions</h2>
+          <div class="wd__eng">
+            @for (e of cs.engineering; track e.heading) {
+              <div class="wd__eng-item">
+                <h3>{{ e.heading }}</h3>
+                <p>{{ e.body }}</p>
+                @if (e.points?.length) {
+                  <ul role="list">
+                    @for (pt of e.points; track pt) {
+                      <li class="mono">{{ pt }}</li>
+                    }
+                  </ul>
+                }
+              </div>
+            }
+          </div>
+        </section>
+
+        <section class="wd__block" appReveal>
+          <h2><span class="mono">07</span> What I took from it</h2>
+          <ul class="wd__learned" role="list">
+            @for (l of cs.learned; track l) {
+              <li>{{ l }}</li>
+            }
+          </ul>
+        </section>
+
+        <section class="wd__cta" appReveal>
+          @if (live()) {
+            <a class="btn btn--primary" [href]="live()!.url" target="_blank" rel="noopener" data-cursor="launch">
+              <app-icon name="play" /> Open the live build
+            </a>
+          }
+          @for (s of sources(); track s.url) {
+            <a class="btn btn--ghost" [href]="s.url" target="_blank" rel="noopener">
+              <app-icon name="github" /> {{ s.label }}
+            </a>
+          }
+        </section>
+      </div>
+    }
+
+    <nav class="wd__more container" aria-label="More work">
+      <p class="eyebrow">More work</p>
+      <ul role="list">
+        @for (o of others(); track o.slug) {
+          <li>
+            <a [routerLink]="['/work', o.slug]" data-cursor="view">
+              <span>{{ o.name }}</span>
+              <app-icon name="arrow-up-right" />
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+  </article>
+}

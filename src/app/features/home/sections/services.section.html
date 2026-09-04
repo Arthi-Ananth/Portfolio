@@ -1,0 +1,53 @@
+<section id="services" class="section container" aria-labelledby="services-title">
+  <div class="section__head" appReveal>
+    <p class="eyebrow">06 — What I can help build</p>
+    <h2 id="services-title" class="section__title">Bring me in for the frontend.</h2>
+    <p class="lede">
+      The kinds of work I'm set up to do well — each with a real example from what's above.
+    </p>
+  </div>
+
+  <ul class="svc" role="list" appReveal>
+    @for (s of services; track s.id; let i = $index) {
+      <li class="svc__item" [class.is-open]="open() === i">
+        <h3>
+          <button
+            type="button"
+            [attr.aria-expanded]="open() === i"
+            [attr.aria-controls]="'svc-' + s.id"
+            (click)="toggle(i)"
+          >
+            <span class="svc__idx mono">{{ i + 1 < 10 ? '0' : '' }}{{ i + 1 }}</span>
+            <span class="svc__title">{{ s.title }}</span>
+            <app-icon name="chevron-down" class="svc__chev" />
+          </button>
+        </h3>
+        <div class="svc__panel" [id]="'svc-' + s.id" [hidden]="open() !== i">
+          <div class="svc__grid">
+            <div>
+              <p class="svc__k mono">Build</p>
+              <p>{{ s.build }}</p>
+            </div>
+            <div>
+              <p class="svc__k mono">Typical use</p>
+              <p>{{ s.useCase }}</p>
+            </div>
+          </div>
+          <ul class="svc__tech" role="list">
+            @for (t of s.tech; track t) {
+              <li class="chip">{{ techLabel(t) }}</li>
+            }
+          </ul>
+          <p class="svc__eg">
+            <span class="mono">example →</span>
+            @if (s.exampleSlug) {
+              <a class="link" [routerLink]="['/work', s.exampleSlug]" data-cursor="view">{{ s.exampleLabel }}</a>
+            } @else {
+              <span>{{ s.exampleLabel }}</span>
+            }
+          </p>
+        </div>
+      </li>
+    }
+  </ul>
+</section>

@@ -1,0 +1,200 @@
+@use 'tokens';
+@use 'themes';
+@use 'reset';
+@use 'typography';
+@use 'motion';
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  overflow-x: hidden;
+  transition:
+    background var(--dur-3) var(--ease-out),
+    color var(--dur-3) var(--ease-out);
+}
+
+// Native cursor is hidden only when the custom cursor is actually mounted.
+body.has-custom-cursor,
+body.has-custom-cursor * {
+  cursor: none !important;
+}
+@media (hover: none), (pointer: coarse) {
+  body.has-custom-cursor,
+  body.has-custom-cursor * {
+    cursor: auto !important;
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
+}
+
+// ── Layout helpers ──────────────────────────────────────────────
+.container {
+  width: min(100% - var(--gutter) * 2, var(--container));
+  margin-inline: auto;
+}
+.container--wide {
+  width: min(100% - var(--gutter) * 2, var(--container-wide));
+}
+
+.section {
+  position: relative;
+  padding-block: clamp(4.5rem, 12vh, 9rem);
+  scroll-margin-top: 88px;
+}
+
+.section__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  max-width: 62ch;
+  margin-bottom: var(--sp-6);
+}
+.section__title {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+}
+
+.grid-backdrop {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 78%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+// ── Buttons ────────────────────────────────────────────────────
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.72rem 1.15rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-weight: 500;
+  font-size: var(--step--1);
+  letter-spacing: 0.01em;
+  transition:
+    transform var(--dur-1) var(--ease-spring),
+    background var(--dur-2) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out),
+    color var(--dur-2) var(--ease-out);
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+.btn:active {
+  transform: translateY(0);
+}
+.btn--primary {
+  --btn-bg: var(--accent);
+  --btn-fg: var(--accent-contrast);
+  border-color: transparent;
+  box-shadow: 0 10px 30px -12px var(--glow);
+}
+.btn--ghost:hover {
+  background: color-mix(in oklab, var(--text) 8%, transparent);
+}
+.btn svg {
+  width: 1em;
+  height: 1em;
+}
+
+// ── Chips ──────────────────────────────────────────────────────
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: var(--step--1);
+  font-family: var(--font-mono);
+  transition:
+    transform var(--dur-1) var(--ease-spring),
+    border-color var(--dur-2) var(--ease-out),
+    color var(--dur-2) var(--ease-out);
+}
+.chip:hover {
+  transform: translateY(-2px);
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+.chip--active {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-color: transparent;
+}
+
+// ── Animated underline link ────────────────────────────────────
+.link {
+  position: relative;
+  color: var(--text);
+  font-weight: 500;
+}
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-3);
+  box-shadow: var(--shadow);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.6rem;
+  left: 0.6rem;
+  z-index: 10000;
+  padding: 0.6rem 1rem;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-radius: var(--r-1);
+  transform: translateY(-160%);
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+}

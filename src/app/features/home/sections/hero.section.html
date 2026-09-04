@@ -1,0 +1,79 @@
+<section id="hero" class="section hero" aria-labelledby="hero-title">
+  <div class="grid-backdrop"></div>
+
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <p class="boot__line eyebrow">
+        <span class="boot__dot"></span> studio &nbsp;·&nbsp; system online
+      </p>
+
+      <h1 id="hero-title" class="hero__headline display">
+        @for (w of headline; track $index) {
+          <span class="w"><span class="word">{{ w }}</span></span>{{ ' ' }}
+        }
+      </h1>
+
+      <p class="hero__sub lede">
+        I'm <strong>Arthi</strong> — a {{ site.role }} in {{ site.location }}. I build the front of the
+        product: dashboards, role-based platforms and the screens people use every day.
+      </p>
+
+      <div class="hero__ctas">
+        <button type="button" class="btn btn--primary" appMagnetic (click)="scrollTo('featured')" data-cursor="explore">
+          Explore my work <app-icon name="arrow-right" />
+        </button>
+        <a class="btn btn--ghost" [href]="site.github" target="_blank" rel="noopener" appMagnetic>
+          <app-icon name="github" /> GitHub
+        </a>
+        <button type="button" class="btn btn--ghost" appMagnetic (click)="scrollTo('contact')">
+          Contact
+        </button>
+        <a class="btn btn--ghost" [href]="site.resumePath" download appMagnetic>
+          <app-icon name="download" /> Résumé
+        </a>
+      </div>
+    </div>
+
+    <div class="hero__stage" aria-hidden="true">
+      <div class="panel panel--main" data-assemble>
+        <div class="panel__bar"><i></i><i></i><i></i><span>dashboard</span></div>
+        <div class="panel__body">
+          <div class="mini-stat" data-assemble><span>Users</span><b>1.2k</b></div>
+          <div class="mini-stat" data-assemble><span>Active</span><b>318</b></div>
+          <svg class="spark" viewBox="0 0 120 40" preserveAspectRatio="none">
+            <polyline points="0,32 20,22 40,26 60,12 80,18 100,6 120,10" fill="none"
+              stroke="var(--accent)" stroke-width="2" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="panel panel--side panel--float" data-assemble>
+        <div class="tabrow">
+          <span class="tab tab--on">Overview</span><span class="tab">Roles</span><span class="tab">API</span>
+        </div>
+        <div class="rows"><i></i><i></i><i></i></div>
+      </div>
+
+      <div class="chipcard panel--float" data-assemble>
+        <span class="dot"></span> route guard · <b>ok</b>
+      </div>
+
+      <div class="donut panel--float" data-assemble>
+        <svg viewBox="0 0 36 36">
+          <circle cx="18" cy="18" r="14" fill="none" stroke="var(--border)" stroke-width="5" />
+          <circle cx="18" cy="18" r="14" fill="none" stroke="var(--accent-2)" stroke-width="5"
+            stroke-dasharray="60 88" stroke-linecap="round" transform="rotate(-90 18 18)" />
+        </svg>
+      </div>
+
+      <div class="codechip" data-assemble>
+        <span class="mono">ng build --configuration production</span>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" class="hero__scroll" (click)="scrollTo('profile')" aria-label="Scroll to profile">
+    <span class="mono">scroll</span>
+    <app-icon name="chevron-down" />
+  </button>
+</section>

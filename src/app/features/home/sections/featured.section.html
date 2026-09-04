@@ -1,0 +1,18 @@
+<section id="featured" class="section container" aria-labelledby="featured-title">
+  <div class="section__head" appReveal>
+    <p class="eyebrow">03 — Featured work</p>
+    <h2 id="featured-title" class="section__title">
+      Five builds, opened up.
+    </h2>
+    <p class="lede">
+      Each one is a real application or interface — problem, build, stack and the
+      engineering calls behind it. Open a case study to go deeper.
+    </p>
+  </div>
+
+  <div class="featured__list">
+    @for (p of featured; track p.slug) {
+      <app-project-window [project]="p" />
+    }
+  </div>
+</section>

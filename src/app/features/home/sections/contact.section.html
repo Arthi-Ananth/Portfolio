@@ -1,0 +1,107 @@
+<section id="contact" class="section container" aria-labelledby="contact-title">
+  <div class="console" appReveal="up">
+    <div class="console__bar" aria-hidden="true">
+      <span class="console__dot"></span><span class="console__dot"></span><span class="console__dot"></span>
+      <span class="mono">comms — outbound</span>
+      <span class="console__led" [attr.data-status]="status()"></span>
+    </div>
+
+    <div class="console__body">
+      <div class="console__left">
+        <p class="eyebrow">09 — Contact</p>
+        <h2 id="contact-title" class="console__title display">
+          Have something worth building?
+        </h2>
+        <p class="lede">
+          Roles, freelance frontend work, or a second opinion on an interface — all good.
+          I reply to real messages.
+        </p>
+
+        <ul class="channels" role="list">
+          <li>
+            <a class="link" [href]="'mailto:' + site.email"><app-icon name="mail" /> {{ site.email }}</a>
+            <button type="button" class="copy" (click)="copyEmail()" [attr.aria-label]="'Copy email address'">
+              <app-icon [name]="copied() ? 'check' : 'copy'" />
+            </button>
+          </li>
+          <li>
+            <a class="link" [href]="site.linkedin" target="_blank" rel="noopener">
+              <app-icon name="linkedin" /> LinkedIn
+            </a>
+          </li>
+          <li>
+            <a class="link" [href]="site.github" target="_blank" rel="noopener">
+              <app-icon name="github" /> {{ '@' + site.githubHandle }}
+            </a>
+          </li>
+          <li>
+            <a class="link" [href]="'tel:' + site.phone"><app-icon name="phone" /> {{ site.phoneDisplay }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="console__right">
+        @if (status() === 'success') {
+          <div class="result result--ok" role="status">
+            <div class="result__slot" aria-hidden="true">
+              <span class="result__env"></span>
+            </div>
+            <p class="result__title">Message delivered</p>
+            <p class="text-muted">Thanks — I'll get back to you at the address you gave.</p>
+            <button type="button" class="btn btn--ghost" (click)="reset()">Send another</button>
+          </div>
+        } @else {
+          <form class="form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+            <div class="field" [class.field--err]="invalid('name')">
+              <label for="c-name">Name</label>
+              <input id="c-name" type="text" formControlName="name" autocomplete="name"
+                [attr.aria-invalid]="invalid('name')" aria-describedby="c-name-e" />
+              <p id="c-name-e" class="field__err" [hidden]="!invalid('name')">
+                Tell me who you are (2–80 characters).
+              </p>
+            </div>
+
+            <div class="field" [class.field--err]="invalid('email')">
+              <label for="c-email">Email</label>
+              <input id="c-email" type="email" formControlName="email" autocomplete="email"
+                [attr.aria-invalid]="invalid('email')" aria-describedby="c-email-e" />
+              <p id="c-email-e" class="field__err" [hidden]="!invalid('email')">
+                A valid email so I can reply.
+              </p>
+            </div>
+
+            <div class="field" [class.field--err]="invalid('message')">
+              <label for="c-msg">Message</label>
+              <textarea id="c-msg" rows="4" formControlName="message"
+                [attr.aria-invalid]="invalid('message')" aria-describedby="c-msg-e"></textarea>
+              <p id="c-msg-e" class="field__err" [hidden]="!invalid('message')">
+                A line or two about what you have in mind (10–1000 characters).
+              </p>
+            </div>
+
+            <button type="submit" class="btn btn--primary form__send" [disabled]="status() === 'sending'">
+              @if (status() === 'sending') {
+                <span class="spinner" aria-hidden="true"></span> Sending…
+              } @else {
+                <app-icon name="send" /> Send message
+              }
+            </button>
+
+            <p class="form__status" role="status" aria-live="polite">
+              @if (status() === 'error') {
+                <span class="form__err"><app-icon name="alert" /> {{ errorText() }} — try again, or
+                  <a class="link" [href]="mailto()">email me directly</a>.</span>
+              }
+              @if (status() === 'not-configured') {
+                <span class="form__err">
+                  <app-icon name="alert" />This form isn't connected to a mail service yet —
+                  <a class="link" [href]="mailto()">open your mail app</a>, or use the copy button by my address.
+                </span>
+              }
+            </p>
+          </form>
+        }
+      </div>
+    </div>
+  </div>
+</section>

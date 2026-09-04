@@ -1,0 +1,74 @@
+<section id="lab" class="section container" aria-labelledby="lab-title">
+  <div class="section__head" appReveal>
+    <p class="eyebrow">08 — UI lab</p>
+    <h2 id="lab-title" class="section__title">Small things I like to get right.</h2>
+    <p class="lede">
+      Interactions pulled out of the projects and made pokeable. Go on.
+    </p>
+  </div>
+
+  <div class="lab" appReveal="up" [revealStagger]="80">
+    <figure class="toy">
+      <figcaption>Sparkline scrub<span class="mono">Finance Dashboard</span></figcaption>
+      <svg viewBox="0 0 200 60" class="toy__spark" (pointerleave)="hoverIdx.set(null)">
+        <path [attr.d]="path()" fill="none" stroke="var(--accent)" stroke-width="2" />
+        @for (p of points; track $index) {
+          <circle
+            [attr.cx]="($index / (points.length - 1)) * 200"
+            [attr.cy]="60 - (p / 32) * 52 - 4"
+            r="10"
+            fill="transparent"
+            (pointerenter)="hoverIdx.set($index)"
+          />
+          @if (hoverIdx() === $index) {
+            <circle
+              [attr.cx]="($index / (points.length - 1)) * 200"
+              [attr.cy]="60 - (p / 32) * 52 - 4"
+              r="3.5"
+              fill="var(--accent-2)"
+            />
+          }
+        }
+      </svg>
+      <p class="toy__read mono">
+        {{ hoverIdx() === null ? 'hover the line' : 'point ' + (hoverIdx()! + 1) + ' · ' + points[hoverIdx()!] }}
+      </p>
+    </figure>
+
+    <figure class="toy">
+      <figcaption>Reorder<span class="mono">KnowledgeNexus</span></figcaption>
+      <button type="button" class="toy__chips" (click)="cycle()" aria-label="Cycle order">
+        @for (c of chips(); track c) {
+          <span class="toy__chip">{{ c }}</span>
+        }
+      </button>
+      <p class="toy__read mono">click to cycle · animates in place</p>
+    </figure>
+
+    <figure class="toy">
+      <figcaption>The switch<span class="mono">Minimal ToDo</span></figcaption>
+      <button
+        type="button"
+        role="switch"
+        [attr.aria-checked]="done()"
+        class="toy__switch"
+        [class.on]="done()"
+        (click)="done.update(v => !v)"
+      >
+        <span class="toy__track"><span class="toy__thumb"></span></span>
+        <span>{{ done() ? 'done' : 'to do' }}</span>
+      </button>
+      <p class="toy__read mono">{{ done() ? 'nice.' : 'try it' }}</p>
+    </figure>
+
+    <figure class="toy">
+      <figcaption>Theme probe<span class="mono">this site</span></figcaption>
+      <div class="toy__probe">
+        <span class="sw" [style.background]="theme.meta().swatch[0]"></span>
+        <span class="sw" [style.background]="theme.meta().swatch[1]"></span>
+        <span class="sw" [style.background]="theme.meta().swatch[2]"></span>
+      </div>
+      <p class="toy__read mono">env: {{ theme.meta().label.toLowerCase() }} · live tokens</p>
+    </figure>
+  </div>
+</section>

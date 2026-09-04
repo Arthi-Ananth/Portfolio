@@ -1,0 +1,72 @@
+<section id="toolkit" class="section container" aria-labelledby="toolkit-title">
+  <div class="section__head" appReveal>
+    <p class="eyebrow">05 — Toolkit</p>
+    <h2 id="toolkit-title" class="section__title">The tools, wired to the work.</h2>
+    <p class="lede">
+      No percentages — they don't mean anything. Tap a technology to see the projects
+      it actually shows up in.
+    </p>
+  </div>
+
+  <div class="toolkit">
+    <div class="board" appReveal>
+      @for (g of groups; track g.id) {
+        <div class="col">
+          <h3 class="col__title">{{ g.label }}</h3>
+          <p class="col__blurb">{{ g.blurb }}</p>
+          <div class="nodes">
+            @for (s of g.skills; track s.id) {
+              <button
+                type="button"
+                class="node"
+                [class.node--on]="selected() === s.id"
+                [class.node--rel]="isRelated(s.id)"
+                [attr.data-w]="s.weight"
+                [attr.aria-pressed]="selected() === s.id"
+                (click)="select(s.id)"
+              >
+                {{ s.label }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <aside class="readout" aria-live="polite">
+      @if (selectedSkill(); as sk) {
+        <p class="readout__eyebrow mono">{{ sk.label }}</p>
+        <p class="readout__note">{{ sk.note }}</p>
+
+        @if (relatedProjects().length) {
+          <p class="readout__label">Used in</p>
+          <ul class="readout__list" role="list">
+            @for (p of relatedProjects(); track p.slug) {
+              <li>
+                @if (p.caseStudy) {
+                  <a class="link" [routerLink]="['/work', p.slug]">{{ p.name }}</a>
+                } @else {
+                  <span>{{ p.name }}</span>
+                }
+                <span class="mono readout__year">{{ p.year }}</span>
+              </li>
+            }
+          </ul>
+        }
+        @if (usedProfessionally()) {
+          <p class="readout__prof">
+            <app-icon name="check" /> and in day-to-day work at {{ 'BornWizh Technologies' }}
+          </p>
+        }
+        @if (!relatedProjects().length && !usedProfessionally()) {
+          <p class="text-subtle">Part of the workflow — not tied to one public project.</p>
+        }
+      } @else {
+        <p class="readout__idle">
+          <span class="readout__pulse"></span>
+          Select a technology to trace it through the projects.
+        </p>
+      }
+    </aside>
+  </div>
+</section>

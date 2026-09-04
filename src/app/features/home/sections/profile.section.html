@@ -1,0 +1,64 @@
+<section id="profile" class="section container" aria-labelledby="profile-title">
+  <div class="section__head" appReveal>
+    <p class="eyebrow">02 — Developer profile</p>
+    <h2 id="profile-title" class="section__title">
+      The short version, in four modules.
+    </h2>
+    <p class="lede">
+      Not a bio paragraph — the parts that actually tell you how I'd fit on a team.
+    </p>
+  </div>
+
+  <div class="profile">
+    <aside class="profile__card" appReveal="left">
+      <div class="profile__photo">
+        <img
+          ngSrc="assets/img/arthi.webp"
+          width="560"
+          height="560"
+          alt="Portrait of Arthi A"
+          priority
+        />
+        <span class="profile__status"><i></i> open to roles</span>
+      </div>
+      <dl class="profile__facts">
+        <div><dt>Role</dt><dd>{{ site.role }}</dd></div>
+        <div><dt>Based in</dt><dd>{{ site.location }}</dd></div>
+        <div><dt>At work</dt><dd>BornWizh Technologies · since Nov 2024</dd></div>
+        <div><dt>Focus</dt><dd>Angular · TypeScript · product UI</dd></div>
+      </dl>
+    </aside>
+
+    <div class="profile__modules" appReveal="right">
+      <div class="tabs" role="tablist" aria-label="Profile modules">
+        @for (m of modules; track m.index) {
+          <button
+            type="button"
+            role="tab"
+            [id]="'ptab-' + m.index"
+            [attr.aria-selected]="open() === $index"
+            [attr.tabindex]="open() === $index ? 0 : -1"
+            [class.is-active]="open() === $index"
+            (click)="select($index)"
+          >
+            <span class="tabs__idx">{{ m.index }}</span>
+            <span class="tabs__label">{{ m.title }}</span>
+          </button>
+        }
+      </div>
+
+      @for (m of modules; track m.index) {
+        @if (open() === $index) {
+          <div class="module" role="tabpanel" [attr.aria-labelledby]="'ptab-' + m.index">
+            <p class="module__body">{{ m.body }}</p>
+            <ul class="module__tags" role="list">
+              @for (t of m.tags; track t) {
+                <li class="chip">{{ t }}</li>
+              }
+            </ul>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</section>

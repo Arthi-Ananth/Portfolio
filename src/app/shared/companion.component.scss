@@ -1,0 +1,108 @@
+:host {
+  position: fixed;
+  left: clamp(0.8rem, 2vw, 1.6rem);
+  bottom: clamp(0.8rem, 2vw, 1.6rem);
+  z-index: var(--z-companion);
+  pointer-events: none;
+}
+
+@media (max-width: 1180px) {
+  :host {
+    display: none;
+  }
+}
+
+.bit {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.6rem 0.35rem 0.4rem;
+  border-radius: var(--r-pill);
+  background: color-mix(in oklab, var(--surface) 82%, transparent);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow);
+  animation: studio-bob 4s var(--ease-in-out) infinite;
+}
+
+.bit__body {
+  width: 34px;
+  height: 34px;
+  overflow: visible;
+}
+
+.bit__shell {
+  fill: var(--surface-elevated);
+  stroke: var(--accent);
+  stroke-width: 1.6;
+}
+.bit__eye {
+  fill: var(--accent);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: studio-blink 5s steps(1) infinite;
+}
+.bit__mouth {
+  fill: none;
+  stroke: var(--text-muted);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+.bit__antenna {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+.bit__spark {
+  fill: var(--accent-2);
+  animation: studio-spin 3s linear infinite;
+  transform-origin: 24px 5px;
+}
+
+.bit__say {
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+/* Per-section micro-poses */
+.bit[data-pose='push'] .bit__body {
+  animation: bit-nudge 1.6s var(--ease-in-out) infinite;
+}
+.bit[data-pose='walk'] .bit__body {
+  animation: bit-step 0.9s var(--ease-in-out) infinite;
+}
+.bit[data-pose='send'] .bit__spark {
+  animation: bit-fly 1.4s var(--ease-out) infinite;
+}
+.bit[data-pose='read'] .bit__body {
+  transform: rotate(-6deg);
+}
+.bit[data-pose='link'] .bit__spark {
+  animation: studio-spin 1.1s linear infinite;
+}
+
+@keyframes bit-nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+@keyframes bit-step {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-2px) rotate(3deg); }
+}
+@keyframes bit-fly {
+  0% { transform: translate(0, 0); opacity: 1; }
+  70% { transform: translate(10px, -8px); opacity: 0; }
+  71% { transform: translate(-4px, 3px); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bit,
+  .bit * {
+    animation: none !important;
+  }
+}

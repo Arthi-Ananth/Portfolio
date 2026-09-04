@@ -1,0 +1,90 @@
+<header class="dock" [class.dock--compact]="compact()">
+  <a class="brand" routerLink="/" aria-label="Arthi A — home">
+    <span class="brand__mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="26" height="26">
+        <rect x="3" y="3" width="26" height="26" rx="8" fill="none" stroke="currentColor" stroke-width="2" />
+        <path d="M10 22 16 9l6 13M12 18h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </span>
+    <span class="brand__name">Arthi<span class="brand__dot">.</span></span>
+  </a>
+
+  <nav class="nav" aria-label="Sections">
+    <ul role="list">
+      @for (item of nav; track item.id) {
+        <li>
+          <button
+            type="button"
+            class="nav__link"
+            [class.is-active]="active() === item.id"
+            (click)="go(item.id)"
+          >
+            <span class="nav__label">{{ item.label }}</span>
+          </button>
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <div class="actions">
+    <app-theme-switcher class="actions__theme" />
+    <a
+      class="btn btn--ghost action-btn"
+      [href]="site.github"
+      target="_blank"
+      rel="noopener"
+      appMagnetic
+      aria-label="GitHub profile"
+    >
+      <app-icon name="github" />
+      <span class="action-btn__text">GitHub</span>
+    </a>
+    <a
+      class="btn btn--primary action-btn"
+      [href]="site.resumePath"
+      download
+      appMagnetic
+      aria-label="Download résumé (PDF)"
+    >
+      <app-icon name="download" />
+      <span class="action-btn__text">Résumé</span>
+    </a>
+  </div>
+
+  <button
+    type="button"
+    class="burger"
+    (click)="toggleMenu()"
+    [attr.aria-expanded]="menuOpen()"
+    aria-label="Menu"
+  >
+    <app-icon [name]="menuOpen() ? 'close' : 'menu'" />
+  </button>
+</header>
+
+@if (menuOpen()) {
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="Menu">
+    <nav class="sheet__nav" aria-label="Sections">
+      <ul role="list">
+        @for (item of nav; track item.id) {
+          <li>
+            <button type="button" (click)="go(item.id, true)" [class.is-active]="active() === item.id">
+              <span class="sheet__idx">{{ item.index }}</span>
+              <span>{{ item.label }}</span>
+              <span class="sheet__arrow" aria-hidden="true">→</span>
+            </button>
+          </li>
+        }
+      </ul>
+    </nav>
+    <div class="sheet__foot">
+      <app-theme-switcher />
+      <a class="btn btn--ghost" [href]="site.github" target="_blank" rel="noopener">
+        <app-icon name="github" /> GitHub
+      </a>
+      <a class="btn btn--primary" [href]="site.resumePath" download>
+        <app-icon name="download" /> Résumé
+      </a>
+    </div>
+  </div>
+}

@@ -1,0 +1,54 @@
+<article class="pw" [class.pw--compact]="compact()" [style.--hue]="project().hue">
+  <div class="pw__frame" appTilt [tiltMax]="compact() ? 0 : 4">
+    <app-frame [kind]="shot()?.frame ?? 'browser'" [url]="frameUrl()">
+      @if (shot()?.schematic || !shot()?.src) {
+        <app-schematic
+          [variant]="project().group === 'dashboard' ? 'dashboard' : 'app'"
+          [label]="shot()?.alt ?? project().name + ' interface wireframe'"
+        />
+      } @else {
+        <img
+          [ngSrc]="'assets/' + shot()!.src"
+          width="1280"
+          height="800"
+          [alt]="shot()!.alt"
+          loading="lazy"
+        />
+      }
+    </app-frame>
+
+    @if (shot()?.schematic || !shot()?.src) {
+      <span class="pw__note mono">wireframe · not a screenshot</span>
+    }
+  </div>
+
+  <div class="pw__meta">
+    <p class="pw__year mono">{{ project().year }} · {{ groupLabel() }}</p>
+    <h3 class="pw__name">{{ project().name }}</h3>
+    <p class="pw__statement">{{ project().statement }}</p>
+
+    <ul class="pw__stack" role="list">
+      @for (t of stackLabels(); track t) {
+        <li>{{ t }}</li>
+      }
+    </ul>
+
+    <div class="pw__actions">
+      @if (hasCase()) {
+        <a class="btn btn--primary" [routerLink]="['/work', project().slug]" data-cursor="view">
+          Case study <app-icon name="arrow-right" />
+        </a>
+      }
+      @if (live()) {
+        <a class="btn btn--ghost" [href]="live()!.url" target="_blank" rel="noopener" data-cursor="launch">
+          <app-icon name="play" /> Live
+        </a>
+      }
+      @if (source()) {
+        <a class="btn btn--ghost" [href]="source()!.url" target="_blank" rel="noopener">
+          <app-icon name="github" /> Source
+        </a>
+      }
+    </div>
+  </div>
+</article>
