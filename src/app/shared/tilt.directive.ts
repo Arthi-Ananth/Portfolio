@@ -28,9 +28,13 @@ export class TiltDirective implements AfterViewInit, OnDestroy {
     const py = (e.clientY - r.top) / r.height - 0.5;
     const max = this.tiltMax();
     this.el.style.transform = `perspective(900px) rotateX(${(-py * max).toFixed(2)}deg) rotateY(${(px * max).toFixed(2)}deg)`;
+    this.el.style.setProperty('--glare-x', `${((px + 0.5) * 100).toFixed(1)}%`);
+    this.el.style.setProperty('--glare-y', `${((py + 0.5) * 100).toFixed(1)}%`);
+    this.el.style.setProperty('--glare-o', '1');
   };
   private leave = () => {
     this.el.style.transform = 'perspective(900px) rotateX(0) rotateY(0)';
+    this.el.style.setProperty('--glare-o', '0');
   };
 
   private get el(): HTMLElement {

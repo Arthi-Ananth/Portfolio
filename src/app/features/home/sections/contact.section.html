@@ -7,7 +7,7 @@
     </div>
 
     <div class="console__body">
-      <div class="console__left">
+      <div class="console__left" appReveal="left">
         <p class="eyebrow">09 — Contact</p>
         <h2 id="contact-title" class="console__title display">
           Have something worth building?
@@ -17,7 +17,7 @@
           I reply to real messages.
         </p>
 
-        <ul class="channels" role="list">
+        <ul class="channels" role="list" appReveal [revealStagger]="60">
           <li>
             <a class="link" [href]="'mailto:' + site.email"><app-icon name="mail" /> {{ site.email }}</a>
             <button type="button" class="copy" (click)="copyEmail()" [attr.aria-label]="'Copy email address'">
@@ -40,7 +40,7 @@
         </ul>
       </div>
 
-      <div class="console__right">
+      <div class="console__right" appReveal="right">
         @if (status() === 'success') {
           <div class="result result--ok" role="status">
             <div class="result__slot" aria-hidden="true">

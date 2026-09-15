@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SITE } from '@data/site.data';
 import { IconComponent } from '@shared/icon.component';
+import { IntroService } from '@core/intro.service';
 
 @Component({
   selector: 'app-site-footer',
@@ -26,7 +27,8 @@ import { IconComponent } from '@shared/icon.component';
         </nav>
         <p class="foot__meta text-subtle">
           Built with Angular · {{ year }}<br />
-          Designed and coded by Arthi.
+          Designed and coded by Arthi. ·
+          <button type="button" class="foot__replay" (click)="intro.replay()">Replay intro</button>
         </p>
       </div>
     </footer>
@@ -65,6 +67,15 @@ import { IconComponent } from '@shared/icon.component';
         font-size: var(--step--1);
         text-align: right;
       }
+      .foot__replay {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        opacity: 0.85;
+      }
+      .foot__replay:hover {
+        opacity: 1;
+      }
       @media (max-width: 640px) {
         .foot__meta {
           text-align: left;
@@ -76,4 +87,5 @@ import { IconComponent } from '@shared/icon.component';
 export class SiteFooterComponent {
   protected readonly site = SITE;
   protected readonly year = new Date().getFullYear();
+  protected readonly intro = inject(IntroService);
 }

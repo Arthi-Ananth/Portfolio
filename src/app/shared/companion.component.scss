@@ -1,18 +1,34 @@
+/* Bit's home is the nav dock, not a free-floating corner widget — it sits
+   just above the pill's top-left edge, like it's perched on the rail,
+   rather than a separate mascot bubble parked in the page corner. */
 :host {
   position: fixed;
-  left: clamp(0.8rem, 2vw, 1.6rem);
-  bottom: clamp(0.8rem, 2vw, 1.6rem);
+  left: clamp(0.6rem, 2vw, 1.2rem);
+  top: clamp(0.15rem, 1vw, 0.35rem);
   z-index: var(--z-companion);
   pointer-events: none;
 }
 
-@media (max-width: 1180px) {
-  :host {
+/* Bit leads the screen transition, so it must render above the veil (and
+   the header) while a transition/nav reaction is in flight, not just sit
+   under everything at its resting dock z-index. */
+:host(.bit-host--active) {
+  z-index: calc(var(--z-transition) + 1);
+}
+
+/* The idle dock presence + on-rail hover walk are a nav-bar affordance for
+   the desktop and tablet dock. On the compact mobile header there's no room
+   for it at rest — it still shows during an active transition/nav-pull
+   reaction at any width, see `bit-host--active` above and `isActive()` in
+   the component. */
+@media (max-width: 767px) {
+  :host:not(.bit-host--active) {
     display: none;
   }
 }
 
 .bit {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -98,6 +114,140 @@
   70% { transform: translate(10px, -8px); opacity: 0; }
   71% { transform: translate(-4px, 3px); opacity: 0; }
   100% { transform: translate(0, 0); opacity: 1; }
+}
+
+/* Bit-led transition: a quick lean (anticipate), a dash the same way the
+   curtain is travelling (run — down for 'forward', up for 'backward'), then
+   a spring back home (enter). Small, vertical, direction-matched motion —
+   Bit's own body is the "hero" here, not a full-screen shape. Timed to the
+   phases driven by mascot-transition.service.ts (~100/300/380ms). */
+.bit[data-pose='anticipate'] {
+  animation: bit-anticipate 0.1s var(--ease-out) forwards;
+}
+.bit[data-pose='run'] {
+  animation: bit-run 0.3s var(--ease-in) forwards;
+}
+.bit[data-pose='run'][data-dir='backward'] {
+  animation-name: bit-run-back;
+}
+.bit[data-pose='enter'] {
+  animation: bit-enter 0.38s var(--ease-spring) forwards;
+}
+.bit[data-pose='enter'][data-dir='backward'] {
+  animation-name: bit-enter-back;
+}
+/* No text mid-dash — but drop the chat-bubble pill too, or the container
+   collapses to a plain circle around the icon. Bit's own body (the rounded
+   shell + eyes) stays as the only visible shape, never a bare circle. */
+.bit[data-pose='run'] .bit__say {
+  display: none;
+}
+.bit[data-pose='run'] {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  padding: 0;
+}
+
+@keyframes bit-anticipate {
+  0% { transform: scale(1); }
+  100% { transform: scale(0.86) translateY(3px); }
+}
+@keyframes bit-run {
+  0% { transform: translateY(0) scale(0.86); filter: blur(0); opacity: 1; }
+  100% { transform: translateY(55vh) scale(0.6) rotate(8deg); filter: blur(4px); opacity: 0; }
+}
+@keyframes bit-run-back {
+  0% { transform: translateY(0) scale(0.86); filter: blur(0); opacity: 1; }
+  100% { transform: translateY(-55vh) scale(0.6) rotate(-8deg); filter: blur(4px); opacity: 0; }
+}
+@keyframes bit-enter {
+  0% { transform: translateY(28vh) scale(0.6); opacity: 0; }
+  65% { transform: translateY(-6px) scale(1.08); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes bit-enter-back {
+  0% { transform: translateY(-28vh) scale(0.6); opacity: 0; }
+  65% { transform: translateY(6px) scale(1.08); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* On-rail nav walk & pull */
+.bit--onrail {
+  animation: none;
+  transition: none;
+}
+.bit[data-pose='nav-walk'] .bit__body {
+  animation: bit-run 0.32s var(--ease-in-out) infinite;
+}
+.bit[data-pose='nav-walk'] .bit__say,
+.bit[data-pose='nav-pull'] .bit__say {
+  color: var(--accent-2);
+}
+.bit[data-pose='nav-pull'] .bit__body {
+  animation: bit-tug 0.32s var(--ease-spring) 2;
+}
+@keyframes bit-run {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(-3px) rotate(8deg); }
+}
+@keyframes bit-tug {
+  0% { transform: translateY(0) scaleY(1); }
+  40% { transform: translateY(4px) scaleY(0.9); }
+  100% { transform: translateY(0) scaleY(1); }
+}
+
+.bit__rope {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 34px;
+  height: 40px;
+  overflow: visible;
+  pointer-events: none;
+}
+.bit__rope line {
+  stroke: var(--accent-2);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  filter: drop-shadow(0 0 4px var(--accent-2));
+  animation: bit-rope-draw 0.35s var(--ease-out) forwards;
+}
+@keyframes bit-rope-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+.bit__trail {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-2);
+  filter: blur(2px);
+  opacity: 0.65;
+  animation: bit-run 0.3s var(--ease-in) forwards;
+}
+[data-dir='backward'] .bit__trail {
+  animation-name: bit-run-back;
+}
+
+/* Retro easter-egg pose */
+.bit[data-pose='retro'] .bit__spark {
+  animation: bit-laser 0.5s steps(2) infinite;
+  fill: #ff2f6d;
+}
+.bit[data-pose='retro'] .bit__eye {
+  animation: bit-laser 0.4s steps(2) infinite;
+  fill: #39ff88;
+}
+@keyframes bit-laser {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
 }
 
 @media (prefers-reduced-motion: reduce) {

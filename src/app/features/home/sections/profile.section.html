@@ -21,7 +21,7 @@
         />
         <span class="profile__status"><i></i> open to roles</span>
       </div>
-      <dl class="profile__facts">
+      <dl class="profile__facts" appReveal [revealStagger]="60">
         <div><dt>Role</dt><dd>{{ site.role }}</dd></div>
         <div><dt>Based in</dt><dd>{{ site.location }}</dd></div>
         <div><dt>At work</dt><dd>BornWizh Technologies · since Nov 2024</dd></div>
@@ -51,7 +51,7 @@
         @if (open() === $index) {
           <div class="module" role="tabpanel" [attr.aria-labelledby]="'ptab-' + m.index">
             <p class="module__body">{{ m.body }}</p>
-            <ul class="module__tags" role="list">
+            <ul class="module__tags" role="list" appReveal [revealStagger]="40">
               @for (t of m.tags; track t) {
                 <li class="chip">{{ t }}</li>
               }

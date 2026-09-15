@@ -22,6 +22,7 @@
           />
           @if (hoverIdx() === $index) {
             <circle
+              class="toy__spark-dot"
               [attr.cx]="($index / (points.length - 1)) * 200"
               [attr.cy]="60 - (p / 32) * 52 - 4"
               r="3.5"
@@ -37,7 +38,7 @@
 
     <figure class="toy">
       <figcaption>Reorder<span class="mono">KnowledgeNexus</span></figcaption>
-      <button type="button" class="toy__chips" (click)="cycle()" aria-label="Cycle order">
+      <button #chipsRoot type="button" class="toy__chips" (click)="cycle()" aria-label="Cycle order">
         @for (c of chips(); track c) {
           <span class="toy__chip">{{ c }}</span>
         }
@@ -63,12 +64,12 @@
 
     <figure class="toy">
       <figcaption>Theme probe<span class="mono">this site</span></figcaption>
-      <div class="toy__probe">
+      <button type="button" class="toy__probe" (click)="cycleTheme()" aria-label="Cycle site theme">
         <span class="sw" [style.background]="theme.meta().swatch[0]"></span>
         <span class="sw" [style.background]="theme.meta().swatch[1]"></span>
         <span class="sw" [style.background]="theme.meta().swatch[2]"></span>
-      </div>
-      <p class="toy__read mono">env: {{ theme.meta().label.toLowerCase() }} · live tokens</p>
+      </button>
+      <p class="toy__read mono">env: {{ theme.meta().label.toLowerCase() }} · click to cycle</p>
     </figure>
   </div>
 </section>

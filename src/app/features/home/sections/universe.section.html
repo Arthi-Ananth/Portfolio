@@ -33,9 +33,9 @@
         <span>{{ g.label }}</span>
         <span class="grp__count mono">{{ g.items.length }}</span>
       </h3>
-      <ul class="cards" role="list">
+      <ul class="cards" role="list" appReveal [revealStagger]="60">
         @for (p of g.items; track p.slug) {
-          <li class="pcard" [class.pcard--dim]="!matches(p)">
+          <li class="pcard" [class.pcard--dim]="!matches(p)" appTilt [tiltMax]="6">
             <div class="pcard__top">
               <span class="pcard__year mono">{{ p.year }}</span>
               @if (liveUrl(p)) {

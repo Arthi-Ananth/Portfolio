@@ -9,6 +9,8 @@ import {
 import { SITE } from '@data/site.data';
 import { GsapService } from '@core/gsap.service';
 import { ScrollService } from '@core/scroll.service';
+import { MascotTransitionService } from '@core/mascot-transition.service';
+import { NavMascotService } from '@core/nav-mascot.service';
 import { IconComponent } from '@shared/icon.component';
 import { MagneticDirective } from '@shared/magnetic.directive';
 
@@ -24,6 +26,8 @@ export class HeroSection implements OnDestroy {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly gsap = inject(GsapService);
   protected readonly scroll = inject(ScrollService);
+  private readonly mascotTransition = inject(MascotTransitionService);
+  private readonly navMascot = inject(NavMascotService);
   protected readonly site = SITE;
   protected readonly headline = ['Building', 'interfaces', 'people', 'actually', 'understand.'];
   private dispose?: () => void;
@@ -39,7 +43,6 @@ export class HeroSection implements OnDestroy {
         const assemble = pick('[data-assemble]');
         const words = pick('.hero__headline .word');
         const copy = pick('.hero__sub, .hero__ctas > *');
-        const floats = pick('.panel--float');
 
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
         if (boot.length) tl.from(boot, { opacity: 0, duration: 0.4, stagger: 0.12 });
@@ -62,16 +65,6 @@ export class HeroSection implements OnDestroy {
         if (copy.length)
           tl.from(copy, { opacity: 0, y: 16, duration: 0.5, stagger: 0.08 }, '-=0.4');
 
-        if (floats.length)
-          gsap.to(floats, {
-            y: -10,
-            duration: 3,
-            ease: 'sine.inOut',
-            repeat: -1,
-            yoyo: true,
-            stagger: 0.4,
-          });
-
         // Loaded in a background tab: GSAP's rAF ticker is throttled, so jump
         // the intro to its end state and let it settle when the tab is shown.
         if (document.hidden) tl.progress(1);
@@ -86,8 +79,27 @@ export class HeroSection implements OnDestroy {
     });
   }
 
-  scrollTo(id: string): void {
-    this.scroll.scrollTo(id);
+  scrollTo(id: string, ev?: MouseEvent): void {
+    const el = ev?.currentTarget as HTMLElement | undefined;
+    if (el) this.navMascot.pull(id, el);
+    this.mascotTransition.runSectionJump(() => this.scroll.scrollTo(id, { instant: true }));
+  }
+
+  /** Bit leans toward the primary CTA on hover — same reaction it gives a
+   *  nav item, so clicking "Explore my work" doesn't feel disconnected from
+   *  the rest of the site's nav-mascot language. */
+  onCtaEnter(ev: Event): void {
+    this.navMascot.approach('featured', ev.currentTarget as HTMLElement);
+  }
+
+  /** Bit notices the dashboard preview too — it's the one piece of the hero
+   *  that actually shows the work, worth a reaction. */
+  onPreviewEnter(ev: Event): void {
+    this.navMascot.approach('featured', ev.currentTarget as HTMLElement);
+  }
+
+  onCtaLeave(): void {
+    this.navMascot.leave();
   }
 
   ngOnDestroy(): void {

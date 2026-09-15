@@ -72,14 +72,15 @@ export class ScrollService {
     }
   }
 
-  scrollTo(id: string): void {
+  scrollTo(id: string, opts: { instant?: boolean } = {}): void {
     if (!isBrowser()) return;
     const el = this.doc.getElementById(id);
     if (!el) return;
     if (this.lenis && this.motion.animate) {
-      this.lenis.scrollTo(el, { offset: -70 });
+      this.lenis.scrollTo(el, { offset: -70, immediate: opts.instant });
     } else {
-      el.scrollIntoView({ behavior: this.motion.animate ? 'smooth' : 'auto', block: 'start' });
+      const smooth = this.motion.animate && !opts.instant;
+      el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
     }
   }
 

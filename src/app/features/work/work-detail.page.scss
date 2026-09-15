@@ -120,8 +120,9 @@
 .wd__eng-item {
   padding: 1.2rem 1.3rem;
   border-radius: var(--r-3);
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur));
 }
 .wd__eng-item h3 {
   font-size: 1.05rem;

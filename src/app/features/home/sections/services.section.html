@@ -7,7 +7,7 @@
     </p>
   </div>
 
-  <ul class="svc" role="list" appReveal>
+  <ul class="svc" role="list" appReveal [revealStagger]="70">
     @for (s of services; track s.id; let i = $index) {
       <li class="svc__item" [class.is-open]="open() === i">
         <h3>

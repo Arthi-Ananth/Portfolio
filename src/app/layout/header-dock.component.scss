@@ -12,8 +12,7 @@
   pointer-events: auto;
   margin-top: 0.9rem;
   width: min(100% - 1.6rem, var(--container-wide));
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
   align-items: center;
   gap: 1rem;
   padding: var(--dock-pad) 1rem var(--dock-pad) 1.1rem;
@@ -33,16 +32,18 @@
   margin-top: 0.55rem;
   background: color-mix(in oklab, var(--surface) 97%, transparent);
 }
-@media (min-width: 1201px) {
+@media (min-width: 1400px) {
   .dock--compact .brand__name {
     display: none;
   }
 }
 
 .brand {
+  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  min-width: 0;
   color: var(--text);
   font-family: var(--font-display);
   font-weight: 600;
@@ -58,19 +59,33 @@
   font-size: 1.05rem;
 }
 
+/* ── Nav row — three explicit tiers, one row, never wraps ──
+   Desktop  ≥1400px (the dock's own max width, --container-wide) : every
+                      link shown directly — there's room, so nothing is
+                      held back behind a "More" menu.
+   Tablet   768–1399px : only Home/Work/Toolkit/Contact direct; everything
+                      else lives in the hamburger sheet (full list).
+   Mobile   <768px  : nav row hidden entirely — hamburger only. */
 .nav {
-  justify-self: center;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  min-width: 0;
   overflow: hidden;
 }
 .nav ul {
   display: flex;
   gap: 0.1rem;
+  min-width: 0;
 }
 .nav__link {
   position: relative;
   display: inline-flex;
   align-items: center;
-  padding: 0.4rem 0.62rem;
+  gap: 0.3rem;
+  padding: 0.4rem 0.55rem;
   border-radius: var(--r-pill);
   color: var(--text-subtle);
   font-size: 0.82rem;
@@ -84,16 +99,50 @@
   color: var(--text);
   background: color-mix(in oklab, var(--accent) 16%, transparent);
 }
+.nav__link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+  transition: transform var(--dur-2) var(--ease-spring), opacity var(--dur-2) var(--ease-out);
+}
+.nav__link.is-active::after {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
 
-@media (max-width: 1200px) {
+@media (min-width: 768px) and (max-width: 1399px) {
+  .nav__item--tablet-hide {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
   .nav {
     display: none;
   }
-  .dock {
-    grid-template-columns: 1fr auto;
-  }
-  .dock--compact {
-    grid-template-columns: 1fr auto;
+}
+
+.dock__trailing {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Mobile-only theme quick-toggle — the full switcher (with GitHub/Résumé)
+   lives in .actions above 767px and in the hamburger sheet below it. */
+.dock__quick-theme {
+  display: none;
+}
+@media (max-width: 767px) {
+  .dock__quick-theme {
+    display: inline-flex;
   }
 }
 
@@ -104,6 +153,9 @@
 }
 .action-btn {
   height: 38px;
+}
+.sound-btn {
+  padding-inline: 0.72rem;
 }
 @media (max-width: 900px) {
   .actions {
@@ -128,10 +180,9 @@
   color: var(--text);
   font-size: 1.1rem;
 }
-@media (max-width: 1200px) {
+@media (max-width: 1399px) {
   .burger {
     display: inline-flex;
-    justify-self: end;
   }
 }
 
@@ -154,6 +205,20 @@
     opacity: 0;
     transform: translateY(-2%);
   }
+}
+.sheet__close {
+  position: absolute;
+  top: env(safe-area-inset-top, 1.2rem);
+  right: var(--gutter);
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-elevated);
+  color: var(--text);
 }
 .sheet__nav ul {
   display: flex;
@@ -178,14 +243,12 @@
 }
 .sheet__idx {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--accent);
-}
-.sheet__arrow {
-  margin-left: auto;
-  color: var(--accent);
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+  opacity: 0.7;
 }
 .sheet__foot {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
 }

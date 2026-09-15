@@ -6,7 +6,7 @@
       <p class="lede">Follow the path. Each checkpoint opens up.</p>
     </div>
 
-    <ol class="path" role="list" appReveal>
+    <ol class="path" role="list" appReveal [revealStagger]="90">
       @for (s of stops; track s.id) {
         <li class="stop" [class.stop--open]="open() === s.id" [attr.data-kind]="s.kind">
           <button type="button" class="stop__head" (click)="toggle(s.id)" [attr.aria-expanded]="open() === s.id">

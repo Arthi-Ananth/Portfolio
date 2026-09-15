@@ -71,14 +71,15 @@
 }
 
 .panel {
-  background: var(--surface);
+  background: var(--glass-bg);
   border: 1px solid var(--border-strong);
+  backdrop-filter: blur(var(--glass-blur));
   border-radius: var(--r-3);
   box-shadow: var(--shadow);
 }
 
 .panel--main {
-  inset: 12% 6% 20% 8%;
+  inset: 8% 5% 8% 5%;
   overflow: hidden;
 }
 .panel__bar {
@@ -132,95 +133,6 @@
   height: 46px;
 }
 
-.panel--side {
-  width: 42%;
-  right: 0;
-  top: 4%;
-  padding: 0.7rem;
-}
-.tabrow {
-  display: flex;
-  gap: 0.3rem;
-  margin-bottom: 0.6rem;
-}
-.tab {
-  font-size: 0.64rem;
-  font-family: var(--font-mono);
-  padding: 0.22rem 0.5rem;
-  border-radius: var(--r-pill);
-  color: var(--text-subtle);
-  border: 1px solid var(--border);
-}
-.tab--on {
-  background: var(--accent);
-  color: var(--accent-contrast);
-  border-color: transparent;
-}
-.rows {
-  display: grid;
-  gap: 0.35rem;
-}
-.rows i {
-  height: 8px;
-  border-radius: 4px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-}
-.rows i:nth-child(2) {
-  width: 78%;
-}
-.rows i:nth-child(3) {
-  width: 55%;
-}
-
-.chipcard {
-  left: 0;
-  bottom: 14%;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.45rem 0.75rem;
-  border-radius: var(--r-pill);
-  background: var(--surface-elevated);
-  border: 1px solid var(--border-strong);
-  font-size: 0.72rem;
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-  box-shadow: var(--shadow);
-}
-.chipcard .dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent-2);
-}
-.chipcard b {
-  color: var(--accent-2);
-}
-
-.donut {
-  right: 6%;
-  bottom: 6%;
-  width: 64px;
-  height: 64px;
-  padding: 8px;
-  border-radius: var(--r-2);
-  background: var(--surface-elevated);
-  border: 1px solid var(--border-strong);
-  box-shadow: var(--shadow);
-}
-
-.codechip {
-  left: 8%;
-  top: 2%;
-  padding: 0.4rem 0.7rem;
-  border-radius: var(--r-1);
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  font-size: 0.66rem;
-  color: var(--text-subtle);
-}
-
 .hero__scroll {
   position: absolute;
   left: 50%;
@@ -254,5 +166,8 @@
     padding-top: 7rem;
     min-height: auto;
     padding-bottom: 4rem;
+  }
+  .panel--main {
+    inset: 4% 4% 4% 4%;
   }
 }

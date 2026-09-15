@@ -10,9 +10,14 @@
   gap: 0.9rem;
   padding: 1.2rem;
   border-radius: var(--r-3);
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur));
   min-height: 190px;
+  transition: border-color var(--dur-2) var(--ease-out);
+}
+.toy:hover {
+  border-color: var(--border-strong);
 }
 .toy figcaption {
   display: flex;
@@ -39,8 +44,20 @@
 .toy__spark circle[fill='transparent'] {
   cursor: pointer;
 }
+.toy__spark-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spark-dot-in var(--dur-1) var(--ease-spring);
+}
+@keyframes spark-dot-in {
+  from {
+    opacity: 0;
+    scale: 0.3;
+  }
+}
 
 .toy__chips {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
@@ -54,7 +71,10 @@
   border: 1px solid var(--border);
   background: var(--surface-2);
   color: var(--text-muted);
-  transition: transform var(--dur-2) var(--ease-spring);
+  /* No CSS transition on transform here — the reorder itself is animated by
+     GSAP Flip (see cycle() in lab.section.ts), which drives this property
+     directly every frame. A CSS transition on the same property would fight
+     it and cause stutter. */
 }
 .toy__chips:hover .toy__chip:first-child {
   border-color: var(--accent);
@@ -97,11 +117,16 @@
 .toy__probe {
   display: flex;
   gap: 0.5rem;
+  padding: 0;
+  align-self: flex-start;
 }
 .toy__probe .sw {
   width: 42px;
   height: 42px;
   border-radius: var(--r-2);
   border: 1px solid var(--border);
-  transition: background var(--dur-3) var(--ease-out);
+  transition: background var(--dur-3) var(--ease-out), transform var(--dur-2) var(--ease-spring);
+}
+.toy__probe:hover .sw {
+  transform: translateY(-2px);
 }

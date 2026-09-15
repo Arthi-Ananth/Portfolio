@@ -5,6 +5,7 @@ import { SKILLS } from '@data/skills.data';
 import { Project, ProjectGroup } from '@models/project.model';
 import { RevealDirective } from '@shared/reveal.directive';
 import { IconComponent } from '@shared/icon.component';
+import { TiltDirective } from '@shared/tilt.directive';
 
 const SKILL_LABEL = new Map(SKILLS.map((s) => [s.id, s.label]));
 
@@ -20,7 +21,7 @@ const FILTERS = ['angular', 'react', 'typescript', 'rest', 'auth', 'rbac', 'char
   selector: 'app-universe-section',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RevealDirective, IconComponent],
+  imports: [RouterLink, RevealDirective, IconComponent, TiltDirective],
   templateUrl: './universe.section.html',
   styleUrl: './universe.section.scss',
 })

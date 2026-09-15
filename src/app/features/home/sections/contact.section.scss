@@ -1,7 +1,8 @@
 .console {
   border-radius: var(--r-4);
-  background: var(--surface);
+  background: var(--glass-bg);
   border: 1px solid var(--border-strong);
+  backdrop-filter: blur(var(--glass-blur));
   box-shadow: var(--shadow);
   overflow: hidden;
 }

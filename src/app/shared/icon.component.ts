@@ -27,7 +27,9 @@ export type IconName =
   | 'alert'
   | 'send'
   | 'grid'
-  | 'wrench';
+  | 'wrench'
+  | 'volume'
+  | 'volume-x';
 
 @Component({
   selector: 'app-icon',

@@ -1,0 +1,40 @@
+// Secret easter egg — type "retro" or the Konami code to toggle a CRT/neon overlay.
+:root[data-retro-mode='true'] {
+  --accent: #39ff88;
+  --accent-2: #ff2f6d;
+}
+
+:root[data-retro-mode='true'] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.18) 0px,
+    rgba(0, 0, 0, 0.18) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: multiply;
+  animation: retro-flicker 6s steps(30) infinite;
+}
+
+@keyframes retro-flicker {
+  0%, 96%, 100% { opacity: 0.9; }
+  97% { opacity: 0.65; }
+  98% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-retro-mode='true'] body::after {
+    animation: none;
+    opacity: 0.75;
+  }
+}
+
+:root[data-reduced-motion='true'][data-retro-mode='true'] body::after {
+  animation: none;
+  opacity: 0.75;
+}

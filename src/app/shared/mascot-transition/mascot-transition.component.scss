@@ -1,0 +1,40 @@
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-transition);
+  pointer-events: none;
+}
+
+/* A flat, solid curtain panel — never a shape or a gradient blob. It's a
+   secondary accent to Bit crossing the screen, not the main event. */
+.veil {
+  position: fixed;
+  inset: 0;
+  display: none;
+  opacity: 1;
+  background: var(--surface-elevated);
+}
+
+.veil::before,
+.veil::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-2) 25%,
+    var(--accent) 50%,
+    var(--accent-2) 75%,
+    transparent
+  );
+  opacity: 0.85;
+}
+.veil::before {
+  top: 0;
+}
+.veil::after {
+  bottom: 0;
+}

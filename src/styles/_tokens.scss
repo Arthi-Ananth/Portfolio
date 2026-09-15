@@ -44,10 +44,18 @@
   --dur-3: 0.55s;
   --dur-4: 0.9s;
 
+  // Glass
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-bg-strong: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-blur: 20px;
+
   // Z
   --z-cursor: 9999;
   --z-nav: 900;
   --z-overlay: 800;
   --z-companion: 700;
   --z-progress: 950;
+  --z-transition: 9990;
+  --z-intro: 10000;
 }

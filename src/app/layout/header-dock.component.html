@@ -12,12 +12,16 @@
   <nav class="nav" aria-label="Sections">
     <ul role="list">
       @for (item of nav; track item.id) {
-        <li>
+        <li [class.nav__item--tablet-hide]="!isTabletCore(item.id)">
           <button
             type="button"
             class="nav__link"
             [class.is-active]="active() === item.id"
-            (click)="go(item.id)"
+            (click)="go(item.id, false, $event)"
+            (mouseenter)="onNavEnter(item.id, $event)"
+            (mouseleave)="onNavLeave()"
+            (focus)="onNavEnter(item.id, $event)"
+            (blur)="onNavLeave()"
           >
             <span class="nav__label">{{ item.label }}</span>
           </button>
@@ -26,52 +30,69 @@
     </ul>
   </nav>
 
-  <div class="actions">
-    <app-theme-switcher class="actions__theme" />
-    <a
-      class="btn btn--ghost action-btn"
-      [href]="site.github"
-      target="_blank"
-      rel="noopener"
-      appMagnetic
-      aria-label="GitHub profile"
-    >
-      <app-icon name="github" />
-      <span class="action-btn__text">GitHub</span>
-    </a>
-    <a
-      class="btn btn--primary action-btn"
-      [href]="site.resumePath"
-      download
-      appMagnetic
-      aria-label="Download résumé (PDF)"
-    >
-      <app-icon name="download" />
-      <span class="action-btn__text">Résumé</span>
-    </a>
-  </div>
+  <div class="dock__trailing">
+    <app-theme-switcher class="dock__quick-theme" [compact]="true" />
 
-  <button
-    type="button"
-    class="burger"
-    (click)="toggleMenu()"
-    [attr.aria-expanded]="menuOpen()"
-    aria-label="Menu"
-  >
-    <app-icon [name]="menuOpen() ? 'close' : 'menu'" />
-  </button>
+    <div class="actions">
+      <button
+        type="button"
+        class="btn btn--ghost action-btn sound-btn"
+        (click)="sound.toggle()"
+        [attr.aria-pressed]="!sound.muted()"
+        [attr.aria-label]="sound.muted() ? 'Unmute UI sounds' : 'Mute UI sounds'"
+        [title]="sound.muted() ? 'Sound off' : 'Sound on'"
+      >
+        <app-icon [name]="sound.muted() ? 'volume-x' : 'volume'" />
+      </button>
+      <app-theme-switcher class="actions__theme" />
+      <a
+        class="btn btn--ghost action-btn"
+        [href]="site.github"
+        target="_blank"
+        rel="noopener"
+        appMagnetic
+        aria-label="GitHub profile"
+      >
+        <app-icon name="github" />
+        <span class="action-btn__text">GitHub</span>
+      </a>
+      <a
+        class="btn btn--primary action-btn"
+        [href]="site.resumePath"
+        download
+        appMagnetic
+        aria-label="Download résumé (PDF)"
+      >
+        <app-icon name="download" />
+        <span class="action-btn__text">Résumé</span>
+      </a>
+    </div>
+
+    <button
+      #burgerBtn
+      type="button"
+      class="burger"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuOpen()"
+      aria-label="Menu"
+    >
+      <app-icon [name]="menuOpen() ? 'close' : 'menu'" />
+    </button>
+  </div>
 </header>
 
 @if (menuOpen()) {
-  <div class="sheet" role="dialog" aria-modal="true" aria-label="Menu">
+  <div #sheet class="sheet" role="dialog" aria-modal="true" aria-label="Menu">
+    <button type="button" class="sheet__close" (click)="toggleMenu()" aria-label="Close menu">
+      <app-icon name="close" />
+    </button>
     <nav class="sheet__nav" aria-label="Sections">
       <ul role="list">
         @for (item of nav; track item.id) {
           <li>
-            <button type="button" (click)="go(item.id, true)" [class.is-active]="active() === item.id">
+            <button type="button" (click)="go(item.id, true, $event)" [class.is-active]="active() === item.id">
               <span class="sheet__idx">{{ item.index }}</span>
               <span>{{ item.label }}</span>
-              <span class="sheet__arrow" aria-hidden="true">→</span>
             </button>
           </li>
         }
@@ -79,6 +100,15 @@
     </nav>
     <div class="sheet__foot">
       <app-theme-switcher />
+      <button
+        type="button"
+        class="btn btn--ghost sound-btn"
+        (click)="sound.toggle()"
+        [attr.aria-pressed]="!sound.muted()"
+        [attr.aria-label]="sound.muted() ? 'Unmute UI sounds' : 'Mute UI sounds'"
+      >
+        <app-icon [name]="sound.muted() ? 'volume-x' : 'volume'" /> Sound
+      </button>
       <a class="btn btn--ghost" [href]="site.github" target="_blank" rel="noopener">
         <app-icon name="github" /> GitHub
       </a>

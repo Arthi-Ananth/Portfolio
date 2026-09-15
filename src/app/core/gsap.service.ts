@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import type { gsap as GsapNs } from 'gsap';
+import type { Flip as FlipNs } from 'gsap/Flip';
 import { isBrowser } from './platform';
 import { MotionService } from './motion.service';
 import { inject } from '@angular/core';
 
 type Gsap = typeof GsapNs;
+type Flip = typeof FlipNs;
 
 /**
  * Loads GSAP + ScrollTrigger lazily, in the browser only. Components ask for a
@@ -15,6 +17,7 @@ type Gsap = typeof GsapNs;
 export class GsapService {
   private readonly motion = inject(MotionService);
   private loader?: Promise<Gsap | null>;
+  private flipLoader?: Promise<Flip | null>;
 
   get enabled(): boolean {
     return this.motion.animate;
@@ -31,6 +34,20 @@ export class GsapService {
       return gsap;
     })();
     return this.loader;
+  }
+
+  /** Lazily loads the Flip plugin for layout-reorder animations (e.g. the
+   *  UI Lab's reorder toy) — same load-once pattern as ScrollTrigger. */
+  async loadFlip(): Promise<Flip | null> {
+    if (!isBrowser() || !this.motion.animate) return null;
+    const gsap = await this.load();
+    if (!gsap) return null;
+    this.flipLoader ??= (async () => {
+      const { Flip } = await import('gsap/Flip');
+      gsap.registerPlugin(Flip);
+      return Flip;
+    })();
+    return this.flipLoader;
   }
 
   /** Run `fn` inside a gsap.context bound to `scope`; returns a disposer. */

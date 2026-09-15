@@ -19,22 +19,24 @@
       </p>
 
       <div class="hero__ctas">
-        <button type="button" class="btn btn--primary" appMagnetic (click)="scrollTo('featured')" data-cursor="explore">
+        <button
+          type="button"
+          class="btn btn--primary"
+          appMagnetic
+          (click)="scrollTo('featured', $event)"
+          (mouseenter)="onCtaEnter($event)"
+          (mouseleave)="onCtaLeave()"
+          data-cursor="explore"
+        >
           Explore my work <app-icon name="arrow-right" />
         </button>
-        <a class="btn btn--ghost" [href]="site.github" target="_blank" rel="noopener" appMagnetic>
-          <app-icon name="github" /> GitHub
-        </a>
-        <button type="button" class="btn btn--ghost" appMagnetic (click)="scrollTo('contact')">
+        <button type="button" class="btn btn--ghost" appMagnetic (click)="scrollTo('contact', $event)">
           Contact
         </button>
-        <a class="btn btn--ghost" [href]="site.resumePath" download appMagnetic>
-          <app-icon name="download" /> Résumé
-        </a>
       </div>
     </div>
 
-    <div class="hero__stage" aria-hidden="true">
+    <div class="hero__stage" aria-hidden="true" (mouseenter)="onPreviewEnter($event)" (mouseleave)="onCtaLeave()">
       <div class="panel panel--main" data-assemble>
         <div class="panel__bar"><i></i><i></i><i></i><span>dashboard</span></div>
         <div class="panel__body">
@@ -45,29 +47,6 @@
               stroke="var(--accent)" stroke-width="2" />
           </svg>
         </div>
-      </div>
-
-      <div class="panel panel--side panel--float" data-assemble>
-        <div class="tabrow">
-          <span class="tab tab--on">Overview</span><span class="tab">Roles</span><span class="tab">API</span>
-        </div>
-        <div class="rows"><i></i><i></i><i></i></div>
-      </div>
-
-      <div class="chipcard panel--float" data-assemble>
-        <span class="dot"></span> route guard · <b>ok</b>
-      </div>
-
-      <div class="donut panel--float" data-assemble>
-        <svg viewBox="0 0 36 36">
-          <circle cx="18" cy="18" r="14" fill="none" stroke="var(--border)" stroke-width="5" />
-          <circle cx="18" cy="18" r="14" fill="none" stroke="var(--accent-2)" stroke-width="5"
-            stroke-dasharray="60 88" stroke-linecap="round" transform="rotate(-90 18 18)" />
-        </svg>
-      </div>
-
-      <div class="codechip" data-assemble>
-        <span class="mono">ng build --configuration production</span>
       </div>
     </div>
   </div>
