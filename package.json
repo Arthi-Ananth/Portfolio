@@ -9,7 +9,7 @@
     "test": "ng test",
     "prebuild:pages": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "build:pages": "ng build && node scripts/prepare-pages.mjs",
-    "deploy": "npm run build:pages && gh-pages -d dist/portfolio/browser -t true",
+    "deploy": "npm run build:pages && gh-pages -d dist/portfolio/browser -t",
     "serve:ssr:portfolio": "node dist/portfolio/server/server.mjs"
   },
   "private": true,
