@@ -92,7 +92,7 @@ export class HeaderDockComponent {
   }
 
   go(id: string, closeMenu = false, ev?: MouseEvent): void {
-    if (closeMenu) this.menuOpen.set(false);
+    if (closeMenu) this.setMenuOpen(false);
     this.sound.click();
     const el = ev?.currentTarget as HTMLElement | undefined;
     if (el) this.navMascot.pull(id, el);
@@ -131,12 +131,22 @@ export class HeaderDockComponent {
   }
 
   toggleMenu(): void {
-    this.menuOpen.update((v) => !v);
-    document.body.style.overflow = this.menuOpen() ? 'hidden' : '';
+    this.setMenuOpen(!this.menuOpen());
+  }
+
+  /** The one place that opens/closes the sheet — every trigger (burger,
+   *  Escape, tapping a nav item inside it) routes through here so the body
+   *  scroll-lock always gets cleared with it. Setting `menuOpen` directly
+   *  anywhere else risks leaving `body{overflow:hidden}` stuck, which not
+   *  only blocks scrolling but also blocks a mobile browser's pull-to-
+   *  refresh gesture (it requires the page to be natively scrollable). */
+  private setMenuOpen(open: boolean): void {
+    this.menuOpen.set(open);
+    document.body.style.overflow = open ? 'hidden' : '';
   }
 
   @HostListener('document:keydown.escape')
   onEsc(): void {
-    if (this.menuOpen()) this.toggleMenu();
+    if (this.menuOpen()) this.setMenuOpen(false);
   }
 }
