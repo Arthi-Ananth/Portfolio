@@ -38,7 +38,11 @@ export class ContactService {
       serviceId,
       templateId,
       {
+        // Sent under both naming conventions so this works regardless of
+        // which variable names the EmailJS template itself was built with.
+        name: payload.name,
         from_name: payload.name,
+        email: payload.email,
         reply_to: payload.email,
         message: payload.message,
       },

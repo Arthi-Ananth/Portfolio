@@ -10,8 +10,8 @@
 export const environment = {
   production: false,
   emailjs: {
-    serviceId: '',
-    templateId: '',
-    publicKey: '',
+    serviceId: 'service_0og5lfd',
+    templateId: 'template_yh2heoe',
+    publicKey: 'OyxJ5Mi0WaDlzlzYU',
   },
 };
